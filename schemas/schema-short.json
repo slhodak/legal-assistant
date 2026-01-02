@@ -1,0 +1,109 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://example.com/schemas/legal-text-mvp.schema.json",
+  "title": "LegalTextMVP",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "id",
+    "type",
+    "jurisdiction",
+    "authority",
+    "citation",
+    "text",
+    "source"
+  ],
+  "properties": {
+    "id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "type": {
+      "type": "string",
+      "description": "High-level bucket for filtering.",
+      "enum": [
+        "statute",
+        "regulation",
+        "case",
+        "ordinance",
+        "constitution",
+        "guidance",
+        "other"
+      ]
+    },
+    "jurisdiction": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "level",
+        "name"
+      ],
+      "properties": {
+        "level": {
+          "type": "string",
+          "enum": [
+            "international",
+            "federal",
+            "state",
+            "county",
+            "city",
+            "special_district",
+            "other"
+          ]
+        },
+        "name": {
+          "type": "string",
+          "minLength": 1
+        }
+      }
+    },
+    "authority": {
+      "type": "string",
+      "description": "Who issued it (e.g., 'California Legislature', 'San Francisco Board of Supervisors').",
+      "minLength": 1
+    },
+    "citation": {
+      "type": "string",
+      "description": "Whatever you’ll show to the user (keep it as a plain string for MVP).",
+      "minLength": 1
+    },
+    "title": {
+      "type": "string",
+      "description": "Optional display title."
+    },
+    "text": {
+      "type": "string",
+      "description": "The actual content you will retrieve/search.",
+      "minLength": 1
+    },
+    "source": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "name",
+        "retrieved_at"
+      ],
+      "properties": {
+        "name": {
+          "type": "string",
+          "minLength": 1
+        },
+        "url": {
+          "type": "string",
+          "format": "uri"
+        },
+        "retrieved_at": {
+          "type": "string",
+          "format": "date-time"
+        }
+      }
+    },
+    "tags": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "Optional: cheap wins for recall/ranking."
+    }
+  }
+}

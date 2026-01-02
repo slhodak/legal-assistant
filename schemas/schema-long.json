@@ -1,0 +1,612 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://example.com/schemas/legal-text.schema.json",
+  "title": "LegalText",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "id",
+    "kind",
+    "authority",
+    "jurisdiction",
+    "hierarchy",
+    "citation",
+    "text",
+    "effective",
+    "relationships",
+    "provenance"
+  ],
+  "properties": {
+    "id": {
+      "type": "string",
+      "description": "Globally unique, stable identifier within your system (e.g., UUID).",
+      "minLength": 1
+    },
+    "kind": {
+      "type": "string",
+      "description": "What this citable unit is.",
+      "enum": [
+        "statute_section",
+        "ordinance_section",
+        "constitution_clause",
+        "regulation_section",
+        "treaty_article",
+        "case",
+        "administrative_decision",
+        "guidance",
+        "rulemaking_record",
+        "contract_clause",
+        "other"
+      ]
+    },
+    "authority": {
+      "$ref": "#/$defs/Authority"
+    },
+    "jurisdiction": {
+      "$ref": "#/$defs/Jurisdiction"
+    },
+    "hierarchy": {
+      "$ref": "#/$defs/Hierarchy"
+    },
+    "citation": {
+      "$ref": "#/$defs/Citation"
+    },
+    "text": {
+      "$ref": "#/$defs/Text"
+    },
+    "effective": {
+      "$ref": "#/$defs/Effective"
+    },
+    "relationships": {
+      "$ref": "#/$defs/Relationships"
+    },
+    "provenance": {
+      "$ref": "#/$defs/Provenance"
+    },
+    "metadata": {
+      "type": "object",
+      "description": "Freeform extension point.",
+      "additionalProperties": true,
+      "default": {}
+    }
+  },
+  "$defs": {
+    "Authority": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "name",
+        "type"
+      ],
+      "properties": {
+        "name": {
+          "type": "string",
+          "minLength": 1
+        },
+        "type": {
+          "type": "string",
+          "enum": [
+            "legislature",
+            "municipality",
+            "court",
+            "agency",
+            "international_body",
+            "private_party",
+            "other"
+          ]
+        },
+        "subdivision": {
+          "type": "string"
+        },
+        "issuer_id": {
+          "type": "string"
+        }
+      }
+    },
+    "Jurisdiction": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "stack"
+      ],
+      "properties": {
+        "stack": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "$ref": "#/$defs/JurisdictionNode"
+          }
+        },
+        "geography": {
+          "$ref": "#/$defs/GeographyScope"
+        }
+      }
+    },
+    "JurisdictionNode": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "level",
+        "name"
+      ],
+      "properties": {
+        "level": {
+          "type": "string",
+          "enum": [
+            "international",
+            "federal",
+            "state",
+            "county",
+            "city",
+            "special_district",
+            "tribal",
+            "other"
+          ]
+        },
+        "name": {
+          "type": "string",
+          "minLength": 1
+        },
+        "code": {
+          "type": "string"
+        }
+      }
+    },
+    "GeographyScope": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "applies_to": {
+          "type": "string",
+          "enum": [
+            "all",
+            "subset",
+            "parcel_bound",
+            "district_overlay",
+            "unknown"
+          ]
+        },
+        "geo_ids": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "Hierarchy": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "instrument",
+        "path"
+      ],
+      "properties": {
+        "instrument": {
+          "$ref": "#/$defs/Instrument"
+        },
+        "path": {
+          "type": "array",
+          "description": "Ordered nesting path within the instrument.",
+          "items": {
+            "$ref": "#/$defs/HierarchyNode"
+          }
+        },
+        "parent_id": {
+          "type": "string"
+        },
+        "children_ids": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "Instrument": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "title",
+        "instrument_type"
+      ],
+      "properties": {
+        "title": {
+          "type": "string",
+          "minLength": 1
+        },
+        "instrument_type": {
+          "type": "string",
+          "enum": [
+            "code",
+            "act",
+            "constitution",
+            "treaty",
+            "case_reporter",
+            "reg_compilation",
+            "order",
+            "policy_manual",
+            "other"
+          ]
+        },
+        "instrument_id": {
+          "type": "string"
+        }
+      }
+    },
+    "HierarchyNode": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "label"
+      ],
+      "properties": {
+        "label": {
+          "type": "string",
+          "description": "E.g. Title, Chapter, Section, Subsection, Part, Article, Opinion, Majority."
+        },
+        "number": {
+          "type": "string",
+          "description": "E.g. 101, 1.2, II.B, (a)(2)(B). Keep as string for maximal fidelity."
+        },
+        "name": {
+          "type": "string",
+          "description": "Optional human name of this node."
+        }
+      }
+    },
+    "Citation": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "preferred"
+      ],
+      "properties": {
+        "preferred": {
+          "type": "string",
+          "minLength": 1
+        },
+        "short": {
+          "type": "string"
+        },
+        "official": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "pinpoint": {
+          "$ref": "#/$defs/Pinpoint"
+        },
+        "citation_parts": {
+          "$ref": "#/$defs/CitationParts"
+        }
+      }
+    },
+    "Pinpoint": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "label": {
+          "type": "string",
+          "description": "E.g. page, paragraph, subsection."
+        },
+        "value": {
+          "type": "string",
+          "minLength": 1
+        }
+      }
+    },
+    "CitationParts": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "system",
+        "components"
+      ],
+      "properties": {
+        "system": {
+          "type": "string",
+          "description": "E.g. Bluebook, ALWD, local."
+        },
+        "components": {
+          "type": "object",
+          "description": "Structured citation components; intentionally flexible.",
+          "additionalProperties": {
+            "type": [
+              "string",
+              "number",
+              "boolean",
+              "null"
+            ]
+          }
+        }
+      }
+    },
+    "Text": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "language",
+        "plain"
+      ],
+      "properties": {
+        "language": {
+          "type": "string",
+          "description": "BCP-47 language tag (e.g., en, es, fr-CA).",
+          "minLength": 1
+        },
+        "plain": {
+          "type": "string"
+        },
+        "rich": {
+          "type": "string",
+          "description": "Optional HTML/Markdown, if stored."
+        },
+        "structure": {
+          "$ref": "#/$defs/TextStructure"
+        },
+        "summary": {
+          "type": "string"
+        },
+        "keywords": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "TextStructure": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "blocks": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/TextBlock"
+          }
+        }
+      }
+    },
+    "TextBlock": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "type",
+        "text"
+      ],
+      "properties": {
+        "type": {
+          "type": "string",
+          "description": "E.g. heading, subsection, paragraph, sentence, holding, dicta."
+        },
+        "label": {
+          "type": "string"
+        },
+        "text": {
+          "type": "string"
+        },
+        "children": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/TextBlock"
+          }
+        }
+      }
+    },
+    "Effective": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "status",
+        "dates"
+      ],
+      "properties": {
+        "status": {
+          "type": "string",
+          "enum": [
+            "in_force",
+            "repealed",
+            "superseded",
+            "not_yet_effective",
+            "unknown",
+            "overruled",
+            "vacated"
+          ]
+        },
+        "dates": {
+          "$ref": "#/$defs/EffectiveDates"
+        },
+        "version": {
+          "type": "string"
+        },
+        "history": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/HistoryEvent"
+          }
+        }
+      }
+    },
+    "EffectiveDates": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "enacted_or_decided": {
+          "type": "string",
+          "format": "date"
+        },
+        "effective_from": {
+          "type": "string",
+          "format": "date"
+        },
+        "effective_to": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "format": "date"
+        }
+      }
+    },
+    "HistoryEvent": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "event_type",
+        "date"
+      ],
+      "properties": {
+        "event_type": {
+          "type": "string",
+          "enum": [
+            "amended_by",
+            "repealed_by",
+            "renumbered_to",
+            "superseded_by",
+            "overruled_by",
+            "affirmed",
+            "reversed",
+            "vacated_by",
+            "other"
+          ]
+        },
+        "date": {
+          "type": "string",
+          "format": "date"
+        },
+        "related_id": {
+          "type": "string"
+        },
+        "note": {
+          "type": "string"
+        }
+      }
+    },
+    "Relationships": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "references": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/Reference"
+          }
+        },
+        "topics": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "authorities_mentioned": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "Reference": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "relation_type"
+      ],
+      "properties": {
+        "to_id": {
+          "type": "string"
+        },
+        "to_citation": {
+          "type": "string"
+        },
+        "relation_type": {
+          "type": "string",
+          "enum": [
+            "cites",
+            "implements",
+            "interprets",
+            "depends_on",
+            "amends",
+            "repeals",
+            "renumbers",
+            "overrules",
+            "distinguishes",
+            "applies",
+            "conflicts_with",
+            "preempts",
+            "other"
+          ]
+        },
+        "pinpoint": {
+          "$ref": "#/$defs/Pinpoint"
+        },
+        "context_snippet": {
+          "type": "string"
+        }
+      },
+      "allOf": [
+        {
+          "oneOf": [
+            {
+              "required": [
+                "to_id"
+              ]
+            },
+            {
+              "required": [
+                "to_citation"
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    "Provenance": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "source",
+        "retrieved_at"
+      ],
+      "properties": {
+        "source": {
+          "type": "string",
+          "minLength": 1
+        },
+        "source_url": {
+          "type": "string",
+          "format": "uri"
+        },
+        "retrieved_at": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "checksum": {
+          "type": "string"
+        },
+        "license": {
+          "type": "string"
+        },
+        "confidence": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "score": {
+              "type": "number",
+              "minimum": 0,
+              "maximum": 1
+            },
+            "note": {
+              "type": "string"
+            }
+          }
+        },
+        "notes": {
+          "type": "string"
+        }
+      }
+    }
+  }
+}

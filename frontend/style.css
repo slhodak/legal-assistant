@@ -1,0 +1,276 @@
+/* Legal Assistant Styles */
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+    line-height: 1.6;
+    color: #333;
+    background-color: #f5f5f5;
+}
+
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 2rem;
+}
+
+header {
+    text-align: center;
+    margin-bottom: 3rem;
+}
+
+header h1 {
+    font-size: 2.5rem;
+    color: #2c3e50;
+    margin-bottom: 0.5rem;
+}
+
+.subtitle {
+    color: #7f8c8d;
+    font-size: 1.1rem;
+}
+
+main {
+    background: white;
+    border-radius: 8px;
+    padding: 2rem;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.form-group {
+    margin-bottom: 1.5rem;
+}
+
+label {
+    display: block;
+    margin-bottom: 0.5rem;
+    font-weight: 600;
+    color: #2c3e50;
+}
+
+input[type="text"],
+textarea {
+    width: 100%;
+    padding: 0.75rem;
+    border: 2px solid #ddd;
+    border-radius: 4px;
+    font-size: 1rem;
+    font-family: inherit;
+    transition: border-color 0.3s;
+}
+
+input[type="text"]:focus,
+textarea:focus {
+    outline: none;
+    border-color: #3498db;
+}
+
+textarea {
+    resize: vertical;
+    min-height: 100px;
+}
+
+button[type="submit"] {
+    background-color: #3498db;
+    color: white;
+    padding: 0.75rem 2rem;
+    border: none;
+    border-radius: 4px;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+button[type="submit"]:hover {
+    background-color: #2980b9;
+}
+
+button[type="submit"]:disabled {
+    background-color: #95a5a6;
+    cursor: not-allowed;
+}
+
+.loading {
+    text-align: center;
+    padding: 2rem;
+    color: #7f8c8d;
+}
+
+.error {
+    background-color: #fee;
+    color: #c33;
+    padding: 1rem;
+    border-radius: 4px;
+    margin-top: 1rem;
+    border-left: 4px solid #c33;
+}
+
+.hidden {
+    display: none;
+}
+
+.results {
+    margin-top: 2rem;
+}
+
+.results h2 {
+    color: #2c3e50;
+    margin-top: 2rem;
+    margin-bottom: 1rem;
+    font-size: 1.5rem;
+}
+
+.results h2:first-child {
+    margin-top: 0;
+}
+
+.jurisdiction-stack {
+    margin-bottom: 2rem;
+}
+
+.jurisdiction-list {
+    list-style: none;
+    padding: 0;
+}
+
+.jurisdiction-list li {
+    padding: 0.5rem;
+    background-color: #ecf0f1;
+    margin-bottom: 0.5rem;
+    border-radius: 4px;
+}
+
+.jurisdiction-list li strong {
+    text-transform: capitalize;
+    color: #2c3e50;
+}
+
+.jurisdiction-group {
+    margin-bottom: 2rem;
+}
+
+.jurisdiction-level {
+    color: #34495e;
+    font-size: 1.2rem;
+    margin-bottom: 1rem;
+    padding-bottom: 0.5rem;
+    border-bottom: 2px solid #ecf0f1;
+    text-transform: capitalize;
+}
+
+.law-card {
+    background-color: #f8f9fa;
+    border: 1px solid #e9ecef;
+    border-radius: 6px;
+    padding: 1.5rem;
+    margin-bottom: 1rem;
+    transition: box-shadow 0.3s;
+}
+
+.law-card:hover {
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.law-header {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    margin-bottom: 1rem;
+}
+
+.law-type {
+    background-color: #3498db;
+    color: white;
+    padding: 0.25rem 0.75rem;
+    border-radius: 4px;
+    font-size: 0.85rem;
+    font-weight: 600;
+    text-transform: uppercase;
+}
+
+.law-title {
+    color: #2c3e50;
+    font-size: 1.1rem;
+    margin: 0;
+}
+
+.law-body {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+}
+
+.law-body > div {
+    line-height: 1.6;
+}
+
+.law-body strong {
+    color: #2c3e50;
+    margin-right: 0.5rem;
+}
+
+.law-citation code {
+    background-color: #fff;
+    padding: 0.25rem 0.5rem;
+    border-radius: 3px;
+    font-family: 'Courier New', monospace;
+    font-size: 0.9rem;
+    color: #e74c3c;
+    border: 1px solid #ddd;
+}
+
+.law-relevance {
+    color: #555;
+    font-style: italic;
+}
+
+.law-source {
+    font-size: 0.9rem;
+    color: #7f8c8d;
+}
+
+.law-source a {
+    color: #3498db;
+    text-decoration: none;
+    margin-left: 0.5rem;
+}
+
+.law-source a:hover {
+    text-decoration: underline;
+}
+
+.law-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    margin-top: 0.5rem;
+}
+
+.tag {
+    background-color: #ecf0f1;
+    color: #555;
+    padding: 0.25rem 0.5rem;
+    border-radius: 3px;
+    font-size: 0.85rem;
+}
+
+@media (max-width: 768px) {
+    .container {
+        padding: 1rem;
+    }
+    
+    header h1 {
+        font-size: 2rem;
+    }
+    
+    main {
+        padding: 1.5rem;
+    }
+}
+
