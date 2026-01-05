@@ -96,11 +96,11 @@ If port 9000 is in use, change the `PORT` in `.env` or modify `app.py` to use a 
 
 Example query results displayed in the UI:
 
-<img src="images/Screenshot 2026-01-04 at 7.28.10 PM.png" alt="Query results example 1" width="800">
+<img src="images/Screenshot1.png" alt="Query results example 1" width="800">
 
-<img src="images/Screenshot 2026-01-04 at 7.28.20 PM.png" alt="Query results example 2" width="800">
+<img src="images/Screenshot2.png" alt="Query results example 2" width="800">
 
-<img src="images/Screenshot 2026-01-04 at 7.28.25 PM.png" alt="Query results example 3" width="800">
+<img src="images/Screenshot3.png" alt="Query results example 3" width="800">
 
 ## API
 

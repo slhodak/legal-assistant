@@ -1,7 +1,7 @@
 // Legal Assistant Frontend
 // Handles form submission and displays results
 
-const API_URL = 'http://localhost:5000/api/query';
+const API_URL = 'http://localhost:9000/api/query';
 
 const form = document.getElementById('query-form');
 const loading = document.getElementById('loading');
