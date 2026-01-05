@@ -2,13 +2,6 @@
 
 A jurisdiction-aware legal research assistant that finds applicable laws for user queries with addresses.
 
-## Features
-
-- Accepts natural language queries with street addresses
-- Returns applicable laws organized by jurisdiction level
-- Displays citations, relevance summaries, and source information
-- Simple, minimal architecture with Python backend and vanilla HTML/JS frontend
-
 ## Project Structure
 
 ```
@@ -24,16 +17,21 @@ la/
 │   └── app.js                 # Frontend logic
 └── README.md
 ```
-
+  
 ## Setup
+
+### Prerequisites
+
+**Important:** Pyenv must be initialized in your shell. If `pyenv` command is not found, see `PYENV_SETUP.md` for setup instructions.
 
 ### Backend
 
-1. Create a virtual environment:
+1. Set Python version and create a virtual environment:
 ```bash
 cd backend
-python -m venv venv
-source venv/bin/activate  # On Windows: venv\Scripts\activate
+pyenv local 3.13.2
+pyenv virtualenv 3.13.2 la-backend
+pyenv activate la-backend
 ```
 
 2. Install dependencies:
@@ -49,7 +47,7 @@ PORT=5000
 
 4. Run the backend server:
 ```bash
-python app.py
+python3 app.py
 ```
 
 The API will be available at `http://localhost:5000`
@@ -59,7 +57,7 @@ The API will be available at `http://localhost:5000`
 1. Open `frontend/index.html` in a web browser, or serve it using a simple HTTP server:
 ```bash
 cd frontend
-python -m http.server 8000
+python3 -m http.server 8000
 ```
 
 2. Open `http://localhost:8000` in your browser
@@ -117,6 +115,7 @@ Response:
 - OpenAI: LLM API client
 - flask-cors: CORS support
 - python-dotenv: Environment variable management
+- httpx: HTTP client (pinned to 0.27.0 for compatibility with OpenAI 1.12.0)
 
 ## License
 
