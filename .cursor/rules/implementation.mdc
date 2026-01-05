@@ -1,0 +1,29 @@
+---
+alwaysApply: true
+---
+
+# How to implement the project
+
+Rules for implementing the project.
+
+<rule>
+name: how_to_implement
+description: Standards and procedures for implementing the project
+
+actions:
+  - type: execute
+    message: |
+      When working on the project:
+
+      1. Always read the Requirements.md file to understand the project requirements
+      2. Never modify the Requirements.md file
+      3. Always write unit tests for the code you write
+      4. Always run the unit tests after each complete change you make
+      5. Always build the project after each complete change you make
+      6. After every change, make sure the README.md file is updated to include a basic overview of the changes and the correct way to build and run the project.
+
+
+metadata:
+  priority: high
+  version: 1.0
+</rule>

@@ -1,0 +1,61 @@
+---
+alwaysApply: true
+---
+
+# README.md Standards
+
+Rules for maintaining the README.md file.
+
+<rule>
+name: readme_setup_instructions
+description: Setup instructions must be in README.md under a Setup header, not in a separate SETUP.md file
+
+actions:
+  - type: reject
+    conditions:
+      - pattern: "SETUP\\.md"
+        message: "Setup instructions must be in README.md under a Setup header, not in a separate SETUP.md file"
+
+  - type: suggest
+    message: |
+      When documenting setup instructions:
+
+      1. Always place setup instructions in README.md under a "Setup" header
+      2. Never create a separate SETUP.md file
+      3. The Setup section should include:
+         - Prerequisites
+         - Backend setup steps
+         - Frontend setup steps
+         - Environment variable configuration
+         - Any troubleshooting information
+
+      4. Structure:
+         ```
+         README.md
+         ├── Project description
+         ├── Project Structure
+         ├── Setup          <-- Setup instructions go here
+         │   ├── Prerequisites
+         │   ├── Backend
+         │   └── Frontend
+         ├── Usage
+         └── ...
+         ```
+
+examples:
+  - input: |
+      # Bad: Separate SETUP.md file
+      SETUP.md
+    output: "Setup instructions should be in README.md under a Setup header"
+
+  - input: |
+      # Good: Setup in README.md
+      README.md
+      ## Setup
+      ...
+    output: "Correctly placed setup instructions in README.md"
+
+metadata:
+  priority: high
+  version: 1.0
+</rule>
