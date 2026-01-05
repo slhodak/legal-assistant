@@ -45,7 +45,7 @@ pip install -r requirements.txt
 3. Create a `.env` file in the project root:
 ```
 OPENAI_API_KEY=sk-your-openai-api-key-here
-PORT=5000
+PORT=9000
 ```
 
 **Important:** Never commit the `.env` file to version control. It's already in `.gitignore`.
@@ -55,7 +55,7 @@ PORT=5000
 python3 app.py
 ```
 
-The API will be available at `http://localhost:5000`
+The API will be available at `http://localhost:9000`
 
 ### Frontend
 
@@ -83,7 +83,7 @@ If you see CORS errors, make sure:
 - Ensure the model name is correct (currently using `gpt-4o`)
 
 #### Port Already in Use
-If port 5000 is in use, change the `PORT` in `.env` or modify `app.py` to use a different port.
+If port 9000 is in use, change the `PORT` in `.env` or modify `app.py` to use a different port.
 
 ## Usage
 
