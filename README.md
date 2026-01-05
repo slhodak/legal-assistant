@@ -30,8 +30,11 @@ la/
 ```bash
 cd backend
 pyenv local 3.13.2
-pyenv virtualenv 3.13.2 la-backend
-pyenv activate la-backend
+python -m venv venv
+# On macOS/Linux:
+source venv/bin/activate
+# On Windows:
+venv\Scripts\activate
 ```
 
 2. Install dependencies:
@@ -41,9 +44,11 @@ pip install -r requirements.txt
 
 3. Create a `.env` file in the project root:
 ```
-OPENAI_API_KEY=your_openai_api_key_here
+OPENAI_API_KEY=sk-your-openai-api-key-here
 PORT=5000
 ```
+
+**Important:** Never commit the `.env` file to version control. It's already in `.gitignore`.
 
 4. Run the backend server:
 ```bash
@@ -63,6 +68,22 @@ python3 -m http.server 8000
 2. Open `http://localhost:8000` in your browser
 
 Note: If serving the frontend separately, update the `API_URL` in `frontend/app.js` to match your backend URL.
+
+### Troubleshooting
+
+#### CORS Errors
+If you see CORS errors, make sure:
+- The backend is running
+- The frontend `API_URL` in `app.js` matches your backend URL
+- Flask-CORS is properly installed
+
+#### OpenAI API Errors
+- Verify your API key is correct in `.env`
+- Check that you have API credits available
+- Ensure the model name is correct (currently using `gpt-4o`)
+
+#### Port Already in Use
+If port 5000 is in use, change the `PORT` in `.env` or modify `app.py` to use a different port.
 
 ## Usage
 

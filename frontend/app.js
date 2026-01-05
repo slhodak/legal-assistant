@@ -7,20 +7,19 @@ const form = document.getElementById('query-form');
 const loading = document.getElementById('loading');
 const error = document.getElementById('error');
 const results = document.getElementById('results');
-const jurisdictionStack = document.getElementById('jurisdiction-stack');
-const lawsContainer = document.getElementById('laws-container');
+const jurisdictionLayers = document.getElementById('jurisdiction-layers');
 
 form.addEventListener('submit', async (e) => {
     e.preventDefault();
-    
+
     // Hide previous results and errors
     results.classList.add('hidden');
     error.classList.add('hidden');
     loading.classList.remove('hidden');
-    
+
     const query = document.getElementById('query').value;
     const address = document.getElementById('address').value;
-    
+
     try {
         const response = await fetch(API_URL, {
             method: 'POST',
@@ -29,15 +28,15 @@ form.addEventListener('submit', async (e) => {
             },
             body: JSON.stringify({ query, address })
         });
-        
+
         if (!response.ok) {
             const errorData = await response.json();
             throw new Error(errorData.error || 'Failed to fetch laws');
         }
-        
+
         const data = await response.json();
         displayResults(data);
-        
+
     } catch (err) {
         showError(err.message);
     } finally {
@@ -46,53 +45,50 @@ form.addEventListener('submit', async (e) => {
 });
 
 function displayResults(data) {
-    // Display jurisdiction stack
-    if (data.jurisdiction_stack && data.jurisdiction_stack.length > 0) {
-        jurisdictionStack.innerHTML = '<ul class="jurisdiction-list">' +
-            data.jurisdiction_stack.map(j => 
-                `<li><strong>${j.level}</strong>: ${j.name}</li>`
-            ).join('') +
-            '</ul>';
-    } else {
-        jurisdictionStack.innerHTML = '<p>No jurisdiction information available.</p>';
+    // Display jurisdiction layers vertically stacked from most general to most specific
+    if (!data.jurisdiction_stack || data.jurisdiction_stack.length === 0) {
+        jurisdictionLayers.innerHTML = '<p>No jurisdiction information available.</p>';
+        results.classList.remove('hidden');
+        return;
     }
-    
-    // Display laws
+
+    // Create a map of laws by jurisdiction (level + name)
+    const lawsByJurisdiction = new Map();
     if (data.laws && data.laws.length > 0) {
-        // Group laws by jurisdiction level
-        const grouped = groupByJurisdiction(data.laws);
-        
-        lawsContainer.innerHTML = Object.keys(grouped)
-            .sort((a, b) => {
-                const order = ['federal', 'state', 'county', 'city', 'special_district'];
-                return order.indexOf(a) - order.indexOf(b);
-            })
-            .map(level => {
-                const laws = grouped[level];
-                return `
-                    <div class="jurisdiction-group">
-                        <h3 class="jurisdiction-level">${level.charAt(0).toUpperCase() + level.slice(1).replace('_', ' ')}</h3>
-                        ${laws.map(law => renderLaw(law)).join('')}
-                    </div>
-                `;
-            }).join('');
-    } else {
-        lawsContainer.innerHTML = '<p>No applicable laws found.</p>';
+        data.laws.forEach(law => {
+            const key = `${law.jurisdiction_level}:${law.jurisdiction_name}`;
+            if (!lawsByJurisdiction.has(key)) {
+                lawsByJurisdiction.set(key, []);
+            }
+            lawsByJurisdiction.get(key).push(law);
+        });
     }
-    
+
+    // Display each jurisdiction layer with its laws
+    jurisdictionLayers.innerHTML = data.jurisdiction_stack
+        .map(jurisdiction => {
+            const key = `${jurisdiction.level}:${jurisdiction.name}`;
+            const laws = lawsByJurisdiction.get(key) || [];
+
+            return `
+                <div class="jurisdiction-layer">
+                    <h3 class="jurisdiction-name">
+                        <span class="jurisdiction-level-badge">${formatLevel(jurisdiction.level)}</span>
+                        ${jurisdiction.name}
+                    </h3>
+                    ${laws.length > 0
+                    ? `<div class="laws-list">${laws.map(law => renderLaw(law)).join('')}</div>`
+                    : '<p class="no-laws">No applicable laws found for this jurisdiction.</p>'
+                }
+                </div>
+            `;
+        }).join('');
+
     results.classList.remove('hidden');
 }
 
-function groupByJurisdiction(laws) {
-    const grouped = {};
-    laws.forEach(law => {
-        const level = law.jurisdiction_level;
-        if (!grouped[level]) {
-            grouped[level] = [];
-        }
-        grouped[level].push(law);
-    });
-    return grouped;
+function formatLevel(level) {
+    return level.charAt(0).toUpperCase() + level.slice(1).replace('_', ' ');
 }
 
 function renderLaw(law) {

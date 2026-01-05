@@ -1,0 +1,40 @@
+---
+alwaysApply: true
+---
+
+# Python Virtual Environment Rules
+
+Rules for creating and managing Python virtual environments.
+
+<rule>
+name: use_venv_module
+description: Use python -m venv instead of pyenv virtualenv for creating virtual environments
+
+actions:
+  - type: execute
+    message: |
+      When creating Python virtual environments:
+
+      1. Always use `python -m venv venv` or `python3 -m venv venv` to create virtual environments
+      2. Never use `pyenv virtualenv` to create virtual environments
+      3. The virtual environment directory should be named `venv` and placed in the project directory (e.g., `backend/venv`)
+      4. To activate the virtual environment:
+         - On Unix/macOS: `source venv/bin/activate`
+         - On Windows: `venv\Scripts\activate`
+      5. When installing dependencies, always activate the virtual environment first, then use `pip install -r requirements.txt`
+
+examples:
+  - input: |
+      # Bad: Using pyenv virtualenv
+      pyenv virtualenv 3.13.2 la-backend
+      pyenv activate la-backend
+    output: |
+      # Good: Using python -m venv
+      python3 -m venv venv
+      source venv/bin/activate
+      pip install -r requirements.txt
+
+metadata:
+  priority: high
+  version: 1.0
+</rule>

@@ -130,38 +130,59 @@ button[type="submit"]:disabled {
     margin-top: 0;
 }
 
-.jurisdiction-stack {
-    margin-bottom: 2rem;
+.jurisdiction-layers {
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
 }
 
-.jurisdiction-list {
-    list-style: none;
-    padding: 0;
+.jurisdiction-layer {
+    border: 2px solid #e9ecef;
+    border-radius: 8px;
+    padding: 1.5rem;
+    background-color: #ffffff;
+    transition: box-shadow 0.3s;
 }
 
-.jurisdiction-list li {
-    padding: 0.5rem;
-    background-color: #ecf0f1;
-    margin-bottom: 0.5rem;
-    border-radius: 4px;
+.jurisdiction-layer:hover {
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
-.jurisdiction-list li strong {
-    text-transform: capitalize;
+.jurisdiction-name {
     color: #2c3e50;
-}
-
-.jurisdiction-group {
-    margin-bottom: 2rem;
-}
-
-.jurisdiction-level {
-    color: #34495e;
-    font-size: 1.2rem;
+    font-size: 1.3rem;
     margin-bottom: 1rem;
-    padding-bottom: 0.5rem;
+    padding-bottom: 0.75rem;
     border-bottom: 2px solid #ecf0f1;
-    text-transform: capitalize;
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+}
+
+.jurisdiction-level-badge {
+    background-color: #3498db;
+    color: white;
+    padding: 0.35rem 0.75rem;
+    border-radius: 4px;
+    font-size: 0.85rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    white-space: nowrap;
+}
+
+.laws-list {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.no-laws {
+    color: #7f8c8d;
+    font-style: italic;
+    padding: 1rem;
+    background-color: #f8f9fa;
+    border-radius: 4px;
+    text-align: center;
 }
 
 .law-card {
@@ -206,7 +227,7 @@ button[type="submit"]:disabled {
     gap: 0.75rem;
 }
 
-.law-body > div {
+.law-body>div {
     line-height: 1.6;
 }
 
@@ -264,13 +285,12 @@ button[type="submit"]:disabled {
     .container {
         padding: 1rem;
     }
-    
+
     header h1 {
         font-size: 2rem;
     }
-    
+
     main {
         padding: 1.5rem;
     }
 }
-
